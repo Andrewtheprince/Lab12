@@ -5,7 +5,6 @@ class Controller:
     def __init__(self, view, model):
         self._view = view
         self._model = model
-
         self._listYear = []
         self._listCountry = []
 
@@ -19,10 +18,25 @@ class Controller:
             self._view.ddyear.options.append(ft.dropdown.Option(anno))
 
     def handle_graph(self, e):
-        pass
+        anno = self._view.ddyear.value
+        nazione = self._view.ddcountry.value
+        if nazione is None:
+            self._view.create_alert("Devi inserire una nazione")
+            return
+        if anno is None:
+            self._view.create_alert("Devi inserire un anno")
+            return
+        self._model.buildGraph(anno, nazione)
+        self._view.txt_result.controls.clear()
+        self._view.txt_result.controls.append(ft.Text(f"Numero di vertici: {self._model.getNumNodi()} Numero di Archi: {self._model.getNumArchi()}"))
+        self._view.update_page()
 
     def handle_volume(self, e):
-        pass
+        volumi = self._model.getVolumiVendita()
+        self._view.txtOut2.controls.clear()
+        for (retailer, volume) in volumi:
+            self._view.txtOut2.controls.append(ft.Text(f"{retailer} --> {volume}"))
+        self._view.update_page()
 
     def handle_path(self, e):
         pass
