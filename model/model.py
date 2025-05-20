@@ -30,5 +30,6 @@ class Model:
         return len(self._graph.edges)
 
     def getVolumiVendita(self):
-        #ritorna una lista di tuple ordinata (retailer, volume)
-        pass
+        somme_pesi = [(nodo, sum(d['weight'] for _,_, d in self._graph.edges(nodo, data=True))) for nodo in self._graph.nodes()]
+        somme_pesi_ordinate = sorted(somme_pesi, key=lambda x: x[1], reverse=True)
+        return somme_pesi_ordinate
